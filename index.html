@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sarap ng Lutong Bahay</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Barrio&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <!-- Internal CSS -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(90deg, #fff9e6, #f0ffe6);
+      color: #333;
+    }
+
+    header {
+      background-color: #ffcc70;
+      color: #4b2e0f;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-family: 'Barrio', cursive;
+      font-size: 2.5em;
+    }
+
+    nav {
+      background-color: #8B4513;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 10px 0;
+      position: relative;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+
+    .hamburger {
+      display: none;
+      color: #ffcc70;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav a {
+      color: #fff9e6;
+      text-decoration: none;
+      padding: 10px 15px;
+      display: block;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #d2691e;
+      border-radius: 5px;
+    }
+
+    nav ul ul {
+      display: none;
+      position: absolute;
+      background-color: #6f4f28;
+      top: 100%;
+      left: 0;
+      min-width: 150px;
+      z-index: 1000;
+    }
+
+    nav ul li:hover > ul {
+      display: block;
+    }
+
+    nav ul ul a:hover {
+      background-color: #a0522d;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      background-color: #ffebaf;
+      padding: 5px 10px;
+      border-radius: 5px;
+      margin-left: auto;
+      margin-right: 10px;
+    }
+
+    .search-container input {
+      border: none;
+      padding: 8px;
+      width: 200px;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+
+    .search-container button {
+      background-color: #ff6600;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .search-container button:hover {
+      background-color: #cc5200;
+    }
+
+    main {
+      padding: 40px;
+      text-align: center;
+    }
+
+    h2, h3 {
+      color: #d2691e;
+    }
+
+    .image-template {
+      display: inline-block;
+      width: 250px;
+      margin: 20px;
+      padding: 15px;
+      background-color: #fff0c2;
+      border-radius: 10px;
+      border: 2px solid #ff9900;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .image-template:hover {
+      transform: scale(1.02);
+    }
+
+    .image-template img {
+      width: 100%;
+      border-radius: 8px;
+      max-height: 200px;
+      object-fit: cover;
+    }
+
+    .image-template p {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #8B0000;
+    }
+
+    .info-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      color: #ffebaf;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .image-template:hover .info-overlay {
+      opacity: 1;
+    }
+
+    .tips-section {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 50px;
+      flex-wrap: wrap;
+    }
+
+    .tip-frame {
+      width: 350px;
+      height: 280px;
+      background-color: #fff6d1;
+      border-left: 6px solid #ff6600;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: left;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .tip-frame h4 {
+      color: #d2691e;
+      font-size: 1.6em;
+      margin-bottom: 15px;
+    }
+
+    .tip-frame a {
+      color: #8B4513;
+      text-decoration: none;
+    }
+
+    .tip-frame a:hover {
+      text-decoration: underline;
+    }
+
+    hr {
+      margin: 60px auto 0 auto;
+      border: 0;
+      height: 2px;
+      background-color: #8B4513;
+      width: 80%;
+    }
+
+    footer {
+      background-color: #4b2e0f;
+      color: #ffebaf;
+      text-align: center;
+      padding: 10px;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        background-color: #8B4513;
+      }
+
+      nav ul li {
+        width: 100%;
+        text-align: center;
+      }
+
+      nav ul ul {
+        position: static;
+      }
+
+      nav.active ul {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .search-container input {
+        width: 150px;
+      }
+
+      .search-container {
+        margin: 10px auto;
+      }
+
+      .tip-frame {
+        width: 90%;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Sarap ng Lutong Bahay</h1>
+    <p>Delicious, home-cooked meals made with love!</p>
+  </header>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <span class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></span>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Menu ▾</a>
+        <ul>
+          <li><a href="rice-meals.html">Rice Meals</a></li>
+          <li><a href="gulay.html">Gulay</a></li>
+          <li><a href="pansit.html">Pansit</a></li>
+          <li><a href="desserts.html">Desserts</a></li>
+          <li><a href="drinks.html">Drinks</a></li>
+        </ul>
+      </li>
+      <li><a href="cart.html">Your Orders</a>
+      </li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="aboutus.html">About Us</a></li>
+    </ul>
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search...">
+      <button onclick="search()">Search</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <h2>Welcome to Sarap ng Lutong Bahay!</h2>
+    <p>Enjoy our warm, home-cooked meals made with fresh ingredients!</p>
+    <p>Browse our menu and order your favorite dishes today!</p>
+
+    <h3 style="font-family: 'Barrio', cursive; font-size: 2em; margin-top: 40px;">Paborito ng Bayan</h3>
+
+    <div class="image-template">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFBgZ0xRVyOV15viy-YGSM6l_dteUhrJ_pwA&s" alt="Pork Adobo">
+      <p>Pork Adobo</p>
+      <div class="info-overlay">
+        <p><strong>Price: ₱150</strong></p>
+        <p>Classic pork adobo with savory soy-vinegar sauce.</p>
+      </div>
+    </div>
+
+    <div class="image-template">
+      <img src="https://www.kawalingpinoy.com/wp-content/uploads/2013/01/sinigang-baboy-7.jpg" alt="Sinigang">
+      <p>Sinigang</p>
+      <div class="info-overlay">
+        <p><strong>Price: ₱160</strong></p>
+        <p>Tamarind-based soup with tender pork and veggies.</p>
+      </div>
+    </div>
+
+    <div class="image-template">
+      <img src="https://static01.nyt.com/images/2023/11/28/multimedia/ND-Lechon-Kawali-bflv/ND-Lechon-Kawali-bflv-mediumSquareAt3X.jpg" alt="Lechon Kawali">
+      <p>Lechon Kawali</p>
+      <div class="info-overlay">
+        <p><strong>Price: ₱180</strong></p>
+        <p>Crispy fried pork belly served with liver sauce.</p>
+      </div>
+    </div>
+
+    <hr />
+
+    <section class="tips-section">
+      <div class="tip-frame">
+        <h4>TIMPLADO TIPS</h4>
+        <ul style="list-style-type: none; padding-left: 0;">
+          <li><a href="#">Adobo Masterclass: 3 Easy Steps to Perfection</a></li>
+          <li><a href="#">Lutong-Bahay Sinigang in 15 Minutes</a></li>
+          <li><a href="#">Crispy Timplado: The Secret to Perfect Lechon Kawali</a></li>
+          <li><a href="#">One-Pot Kare-Kare: No Fuss, All Flavor</a></li>
+        </ul>
+      </div>
+
+      <div class="tip-frame" style="text-align: center; justify-content: center; align-items: center;">
+        <h4 style="font-size: 1.8em;">Serving Lutong Bahay Since 1995</h4>
+      </div>
+
+      <div class="tip-frame">
+        <h4>Loyalty Program & Rewards</h4>
+        <p><strong>Suki Card – Eat 5 Times, Get 1 Ulam Free!</strong></p>
+        <p>Every meal purchased = 1 stamp.</p>
+        <p>Collect 5 stamps and claim 1 free ulam of your choice.</p>
+        <p><em>Valid for dine-in and takeout.</em></p>
+      </div>
+    </section>
+
+    <hr />
+
+    <section style="display: flex; justify-content: center; align-items: stretch; gap: 30px; margin-top: 50px; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 250px; background-color: #fff3c4; border-radius: 10px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; height: 300px;">
+        <div style="border: 2px dashed #d2691e; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+          <img src="logo.jpg" alt="Sarap ng Lutong Bahay Logo" style="max-width: 100%; max-height: 100%;" />
+        </div>
+      </div>
+
+      <div style="flex: 1; min-width: 250px; background-color: #fff3c4; border-radius: 10px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); height: 300px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <h3 style="color: #8B4513;">Operating Hours</h3>
+        <p>Monday - Friday: 10:00 AM - 8:00 PM</p>
+        <p>Saturday - Sunday: 9:00 AM - 9:00 PM</p>
+        <p><em>Visit us for freshly cooked meals every day!</em></p>
+      </div>
+
+      <div style="flex: 2; min-width: 300px; background-color: #fff3c4; border-radius: 10px; padding: 30px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); height: 300px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+        <h3 style="color: #8B4513; font-size: 1.5em;">We’d Love to See You Again!</h3>
+        <p>Join our community of food lovers and enjoy daily meals filled with tradition, warmth, and flavor.</p>
+        <p>Don't forget to bring your Suki Card and earn a stamp every time you visit!</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Sarap ng Lutong Bahay. All rights reserved.
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navbar").classList.toggle("active");
+    }
+
+    function search() {
+      const query = document.getElementById("search-input").value.trim().toLowerCase();
+      if (!query) {
+        alert("Please enter a search term.");
+        return;
+      }
+
+      const items = document.querySelectorAll(".image-template p");
+      let found = false;
+
+      items.forEach(item => {
+        if (item.textContent.toLowerCase().includes(query)) {
+          item.parentElement.scrollIntoView({ behavior: "smooth" });
+          item.parentElement.style.border = "3px solid #ff9900";
+          setTimeout(() => item.parentElement.style.border = "none", 3000);
+          found = true;
+        }
+      });
+
+      if (!found) {
+        alert("No matching item found.");
+      }
+    }
+  </script>
+</body>
+</html>

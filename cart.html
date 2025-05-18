@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Barrio&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init('wdmDXPNCdsEPB8yeO');
+    })();
+  </script>
+  <style>
+    body {
+      background-color: #f5f5dc;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #fff8dc;
+      padding: 20px 20px 20px 60px;
+      text-align: center;
+      border-bottom: 2px solid #d2b48c;
+      position: relative;
+    }
+
+    .back-link {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: bold;
+      color: #8b4513;
+      text-decoration: none;
+      font-size: 1rem;
+      background-color: #ffe4b5;
+      padding: 6px 12px;
+      border-radius: 8px;
+      box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
+    }
+
+    .back-link:hover {
+      background-color: #fddca3;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: #8b4513;
+      font-family: 'Barrio', cursive;
+    }
+
+    header p {
+      margin: 5px 0 15px;
+      font-style: italic;
+      color: #a0522d;
+      font-size: 1rem;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    .cart-container {
+      background-color: #fff8dc;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .cart-container h2 {
+      color: #8b4513;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #ffffff;
+      border: 1px solid #e0c097;
+      border-radius: 8px;
+    }
+
+    .cart-item input[type="number"] {
+      width: 50px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .remove-btn {
+      background: none;
+      color: red;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .cart-summary {
+      text-align: right;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 20px;
+      color: #8b4513;
+    }
+
+    .submit-btn {
+      display: block;
+      margin: 20px auto 0;
+      background-color: #ffa500;
+      color: #fff;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #e69500;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-content {
+      background-color: #fff8dc;
+      margin: 10% auto;
+      padding: 2rem;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      font-family: 'Barrio', cursive;
+      font-size: 1.8rem;
+      color: #8b4513;
+      text-align: center;
+    }
+
+    .modal-content label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #5c3a1a;
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.4rem;
+      border: 2px solid #d2b48c;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .modal-content textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .modal-buttons {
+      margin-top: 1.5rem;
+      text-align: right;
+    }
+
+    .modal-buttons button {
+      padding: 0.6rem 1.2rem;
+      margin-left: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .modal-buttons button:first-child {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    .modal-buttons button:last-child {
+      background-color: #ffa500;
+      color: #fff;
+    }
+
+    .modal-buttons button:last-child:hover {
+      background-color: #e69500;
+    }
+
+    @media (max-width: 600px) {
+      .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cart-summary {
+        text-align: left;
+      }
+
+      .submit-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="back-link">Home</a>
+    <h1>Sarap ng Lutong Bahay</h1>
+    <p><em>Delicious, home-cooked meals made with love!</em></p>
+  </header>
+
+  <main>
+    <div class="cart-container">
+      <h2>Your Order</h2>
+      <div id="cart-items"></div>
+      <div class="cart-summary">Total: ₱<span id="cart-total">0.00</span></div>
+      <button class="submit-btn" onclick="submitOrder()">Submit Order</button>
+    </div>
+
+    <!-- Modal Popup -->
+    <div id="order-modal" class="modal">
+      <div class="modal-content">
+        <h3>Enter Your Information</h3>
+        <form id="order-form">
+          <label>Name:</label>
+          <input type="text" id="user-name" required />
+          <label>Phone Number:</label>
+          <input type="tel" id="user-phone" required />
+          <label>Email:</label>
+          <input type="email" id="user-email" required />
+          <label>Delivery Address:</label>
+          <textarea id="user-address" required></textarea>
+          <div class="modal-buttons">
+            <button type="button" onclick="closeModal()">Cancel</button>
+            <button type="submit">Confirm Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function renderCart() {
+      const cartItems = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+      cartItems.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <div>
+            <strong>${item.name}</strong><br>
+            ₱${item.price.toFixed(2)} x 
+            <input type="number" min="1" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)">
+          </div>
+          <button class="remove-btn" onclick="removeItem(${index})">✕</button>
+        `;
+        cartItems.appendChild(div);
+      });
+
+      cartTotal.textContent = total.toFixed(2);
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function updateQuantity(index, qty) {
+      const quantity = parseInt(qty);
+      if (!quantity || quantity < 1) return;
+      cart[index].quantity = quantity;
+      renderCart();
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function submitOrder() {
+      if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+      }
+      document.getElementById('order-modal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('order-modal').style.display = 'none';
+    }
+
+    function generateOrderSummary() {
+      let summary = '';
+      let total = 0;
+      cart.forEach(item => {
+        summary += `${item.name} - ₱${item.price.toFixed(2)} x ${item.quantity}\n`;
+        total += item.price * item.quantity;
+      });
+      summary += `\nTotal: ₱${total.toFixed(2)}`;
+      return summary;
+    }
+
+    function sendEmail(name, email, phone, address, summary) {
+      const templateParams = {
+        user_name: name,
+        user_email: email,
+        user_phone: phone,
+        user_address: address,
+        order_summary: summary
+      };
+
+      emailjs.send('service_zo7kegq', 'template_6tyzjgu', templateParams)
+        .then(function(response) {
+          console.log('Email sent successfully!', response.status, response.text);
+        }, function(error) {
+          console.error('Email failed to send:', error);
+        });
+    }
+
+    // NEW function to send order data to your Node.js backend
+    async function sendOrderToServer(name, email, phone, address, summary) {
+      try {
+        const response = await fetch('http://localhost:3000/send-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, address, summary })
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        console.log('Server response:', data.message);
+      } catch (error) {
+        console.error('Error sending order to server:', error);
+      }
+    }
+
+    document.getElementById('order-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('user-name').value.trim();
+      const phone = document.getElementById('user-phone').value.trim();
+      const email = document.getElementById('user-email').value.trim();
+      const address = document.getElementById('user-address').value.trim();
+
+      if (!name || !phone || !email || !address) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      const summary = generateOrderSummary();
+
+      sendEmail(name, email, phone, address, summary);
+      sendOrderToServer(name, email, phone, address, summary);  // <-- New call here
+
+      alert(`Order submitted!\nThank you, ${name}.\nA confirmation will be sent to ${email}.`);
+
+      cart = [];
+      localStorage.removeItem('cart');
+      renderCart();
+      closeModal();
+      document.getElementById('order-form').reset();
+    });
+
+    renderCart();
+  </script>
+</body>
+</html>

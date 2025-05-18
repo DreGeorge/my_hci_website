@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rice Meals | Sarap ng Lutong Bahay</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barrio&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff8f0;
+      color: #5a3e1b;
+    }
+    header {
+      background-color: #ffcc80;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-family: 'Barrio', cursive;
+      font-size: 3em;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+    header p {
+      font-size: 1.25em;
+      margin-top: 5px;
+      font-weight: 600;
+      color: #7a542e;
+    }
+    nav {
+      background-color: #ffe0b2;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 12px 10px;
+      flex-wrap: wrap;
+      font-weight: 700;
+    }
+    nav a {
+      text-decoration: none;
+      color: #5a3e1b;
+      padding: 10px 18px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    nav a:hover {
+      background-color: #ffb74d;
+    }
+    .search-container {
+      text-align: center;
+      margin: 15px 0 25px 0;
+    }
+    #search {
+      width: 300px;
+      max-width: 90%;
+      padding: 10px 15px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 2px solid #ffcc80;
+      outline-color: #ffb74d;
+    }
+    .menu-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .dish-card {
+      background-color: #fff3e0;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(90, 62, 27, 0.25);
+      overflow: hidden;
+      width: 280px;
+      display: none;
+      flex-direction: column;
+    }
+    .dish-card.active {
+      display: flex;
+    }
+    .dish-card.match {
+      border-color: #ffb74d;
+      box-shadow: 0 0 15px 3px #ffb74d88;
+    }
+    .dish-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .dish-info {
+      padding: 15px 18px;
+      display: flex;
+      flex-direction: column;
+    }
+    .dish-info h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.3em;
+    }
+    .dish-info p {
+      font-size: 0.95em;
+      flex-grow: 1;
+    }
+    .dish-info strong {
+      font-size: 1.1em;
+    }
+    .add-to-cart {
+      margin-top: 10px;
+      background-color: #ffcc80;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .add-to-cart:hover {
+      background-color: #ffb74d;
+    }
+    .navigation-buttons {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .navigation-buttons button {
+      background-color: #ffcc80;
+      border: none;
+      padding: 12px 24px;
+      margin: 0 12px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .navigation-buttons button:disabled {
+      opacity: 0.5;
+    }
+    .back-home {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .back-home a {
+      background-color: #ffcc80;
+      padding: 12px 26px;
+      text-decoration: none;
+      color: #5a3e1b;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+    @media (max-width: 768px) {
+      .menu-section {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+      }
+      .dish-card {
+        min-width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sarap ng Lutong Bahay</h1>
+    <p>Desserts</p>
+  </header>
+
+  <nav>
+    <a href="rice-meals.html">Rice Meals</a>
+    <a href="gulay.html">Gulay</a>
+    <a href="pansit.html">Pansit</a>
+    <a href="desserts.html">Desserts</a>
+    <a href="drinks.html">Drinks</a>
+  </nav>
+
+  <div class="search-container">
+    <input id="search" type="text" placeholder="Search dishes..." />
+  </div>
+
+  <section class="menu-section">
+    <!-- Sample dish cards (repeatable structure) -->
+  <article class="dish-card">
+  <img src="https://iankewks.com/wp-content/uploads/2024/07/IMG_1524.jpg" alt="Halo-Halo" class="dish-image" />
+  <div class="dish-info">
+    <h3>Halo-Halo</h3>
+    <p>Shaved ice dessert with mixed sweets, leche flan, and ube.</p>
+    <strong>₱85</strong>
+    <button class="add-to-cart" data-name="Halo-Halo" data-price="85">Add to Cart</button>
+  </div>
+</article>
+<article class="dish-card">
+  <img src="https://bitesbybianca.com/wp-content/uploads/2024/12/filipino-leche-flan-cover-1.jpg" alt="Leche Flan" class="dish-image" />
+  <div class="dish-info">
+    <h3>Leche Flan</h3>
+    <p>Rich and creamy caramel custard made with egg yolks.</p>
+    <strong>₱70</strong>
+    <button class="add-to-cart" data-name="Leche Flan" data-price="70">Add to Cart</button>
+  </div>
+</article>
+<article class="dish-card">
+  <img src="https://www.kawalingpinoy.com/wp-content/uploads/2019/09/ube-halaya-3.jpg" alt="Ube Halaya" class="dish-image" />
+  <div class="dish-info">
+    <h3>Ube Halaya</h3>
+    <p>Sweet purple yam dessert topped with cheese or coconut.</p>
+    <strong>₱80</strong>
+    <button class="add-to-cart" data-name="Ube Halaya" data-price="80">Add to Cart</button>
+  </div>
+</article>
+<article class="dish-card">
+  <img src="https://www.seriouseats.com/thmb/W9cK95wrWNLlRtrxS3jqUWHonFs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20210617-biko-vicky-wasik-seriouseats-seriouseats-27-62f3c7854d1443dfbe36f1b29dc1dae5.jpg" alt="Biko" class="dish-image" />
+  <div class="dish-info">
+    <h3>Biko</h3>
+    <p>Sticky rice with coconut milk and latik topping.</p>
+    <strong>₱60</strong>
+    <button class="add-to-cart" data-name="Biko" data-price="60">Add to Cart</button>
+  </div>
+</article>
+<article class="dish-card">
+  <img src="https://www.kawalingpinoy.com/wp-content/uploads/2020/01/espesyal-maja-blanca-3.jpg" alt="Maja Blanca" class="dish-image" />
+  <div class="dish-info">
+    <h3>Maja Blanca</h3>
+    <p>Coconut milk pudding with corn and creamy topping.</p>
+    <strong>₱55</strong>
+    <button class="add-to-cart" data-name="Maja Blanca" data-price="55">Add to Cart</button>
+  </div>
+</article>
+<article class="dish-card">
+  <img src="https://themayakitchen.com/wp-content/uploads/2019/10/TURON.jpg" alt="Turon" class="dish-image" />
+  <div class="dish-info">
+    <h3>Turon</h3>
+    <p>Banana rolls fried in sugar-coated lumpia wrapper.</p>
+    <strong>₱25</strong>
+    <button class="add-to-cart" data-name="Turon" data-price="25">Add to Cart</button>
+  </div>
+</article>
+<article class="dish-card">
+  <img src="https://amiablefoods.com/wp-content/uploads/buko-salad-recipe-card-pref.jpg" alt="Buko Salad" class="dish-image" />
+  <div class="dish-info">
+    <h3>Buko Salad</h3>
+    <p>Chilled young coconut with fruits and sweet cream.</p>
+    <strong>₱75</strong>
+    <button class="add-to-cart" data-name="Buko Salad" data-price="75">Add to Cart</button>
+  </div>
+</article>
+<article class="dish-card">
+  <img src="https://hicaps.com.ph/wp-content/uploads/2021/08/sapin-sapin.jpg" alt="Sapin-Sapin" class="dish-image" />
+  <div class="dish-info">
+    <h3>Sapin-Sapin</h3>
+    <p>Layered colorful rice cake topped with latik.</p>
+    <strong>₱60</strong>
+    <button class="add-to-cart" data-name="Sapin-Sapin" data-price="60">Add to Cart</button>
+  </div>
+</article>
+<article class="dish-card">
+  <img src="https://www.recipesbynora.com/wp-content/uploads/2023/09/Kutsinta-on-a-banana-leaf-featured-image-1.jpg" alt="Kutsinta" class="dish-image" />
+  <div class="dish-info">
+    <h3>Kutsinta</h3>
+    <p>Steamed sticky rice cakes served with grated coconut.</p>
+    <strong>₱30</strong>
+    <button class="add-to-cart" data-name="Kutsinta" data-price="30">Add to Cart</button>
+  </div>
+</article>
+
+
+
+
+
+
+
+  </section>
+
+  <div class="navigation-buttons">
+    <button id="prevBtn" disabled>← Previous</button>
+    <button id="nextBtn">Next →</button>
+  </div>
+
+ <div class="back-home" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;">
+  <a href="index.html">← Back to Homepage</a>
+  <a href="cart.html">🛒 Check Your Cart</a>
+</div>
+
+
+  <script>
+  const dishes = Array.from(document.querySelectorAll('.dish-card'));
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const searchInput = document.getElementById('search');
+
+  const itemsPerPage = 3;
+  let currentPage = 0;
+  let filteredDishes = dishes.slice(); // Start with all dishes shown
+
+  function updateDisplay() {
+    dishes.forEach(dish => {
+      dish.classList.remove('active');
+      dish.style.display = 'none'; // hide all initially
+    });
+
+    const start = currentPage * itemsPerPage;
+    const end = start + itemsPerPage;
+
+    filteredDishes.forEach((dish, index) => {
+      if (index >= start && index < end) {
+        dish.classList.add('active');
+        dish.style.display = 'flex'; // show only filtered & paginated dishes
+      }
+    });
+
+    prevBtn.disabled = currentPage === 0;
+    nextBtn.disabled = end >= filteredDishes.length;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentPage > 0) {
+      currentPage--;
+      updateDisplay();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if ((currentPage + 1) * itemsPerPage < filteredDishes.length) {
+      currentPage++;
+      updateDisplay();
+    }
+  });
+
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase().trim();
+    currentPage = 0; // reset page on new search
+
+    if (!query) {
+      filteredDishes = dishes.slice();
+    } else {
+      filteredDishes = dishes.filter(dish => {
+        const title = dish.querySelector('h3').textContent.toLowerCase();
+        const desc = dish.querySelector('p').textContent.toLowerCase();
+        return title.includes(query) || desc.includes(query);
+      });
+    }
+
+    updateDisplay();
+  });
+
+  document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const dishCard = e.target.closest('.dish-card');
+      const name = dishCard.querySelector('h3').textContent;
+      const priceText = dishCard.querySelector('strong').textContent;
+      const price = parseFloat(priceText.replace(/[₱,]/g, ''));
+      const img = dishCard.querySelector('img').src;
+
+      const item = { name, price, img, quantity: 1 };
+
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      const existing = cart.find(i => i.name === item.name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push(item);
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} added to cart!`);
+    });
+  });
+
+  // Initial display
+  updateDisplay();
+</script>
+</body>
+</html>
+
