@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rice Meals | Sarap ng Lutong Bahay</title>
+  <title>Gulay | Sarap ng Lutong Bahay</title>
   <link href="https://fonts.googleapis.com/css2?family=Barrio&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #fff8f0;
-      color: #5a3e1b;
+      background-color: #fff3e6;
+      color: #4a2e13;
     }
     header {
-      background-color: #ffcc80;
+      background-color: #d9b382; /* Changed from #fae3c2 to a deeper warm brown */
       padding: 20px;
       text-align: center;
     }
@@ -22,35 +23,56 @@
       font-size: 3em;
       margin: 0;
       letter-spacing: 2px;
-    }
-    header p {
-      font-size: 1.25em;
-      margin-top: 5px;
-      font-weight: 600;
-      color: #7a542e;
+      color: #fff8ef;
+      text-shadow: 1px 1px 2px #4a2e13cc;
     }
     nav {
-      background-color: #ffe0b2;
+      background-color: #fbd8aa;
       display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 12px 10px;
-      flex-wrap: wrap;
-      font-weight: 700;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      position: relative;
     }
-    nav a {
+    .nav-left a {
       text-decoration: none;
-      color: #5a3e1b;
-      padding: 10px 18px;
+      color: #fff8ef;
+      font-weight: 700;
+      background-color: #4a2e13;
+      padding: 10px 16px;
       border-radius: 6px;
       transition: background-color 0.3s ease;
+      display: inline-block;
     }
-    nav a:hover {
-      background-color: #ffb74d;
+    .nav-left a:hover {
+      background-color: #3c2410;
+    }
+    .nav-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #4a2e13;
+      gap: 20px;
+    }
+    .nav-center span {
+      font-size: 1.4em;
+    }
+    .nav-center a {
+      text-decoration: none;
+      color: #4a2e13;
+      font-size: 1.6em;
+      transition: color 0.3s;
+    }
+    .nav-center a:hover {
+      color: #e17b1c;
     }
     .search-container {
       text-align: center;
-      margin: 15px 0 25px 0;
+      margin: 20px 0 30px 0;
     }
     #search {
       width: 300px;
@@ -58,33 +80,33 @@
       padding: 10px 15px;
       font-size: 1em;
       border-radius: 8px;
-      border: 2px solid #ffcc80;
-      outline-color: #ffb74d;
+      border: 2px solid #f4a942;
+      outline-color: #f4a942;
     }
     .menu-section {
       max-width: 960px;
       margin: 0 auto;
-      padding: 0 20px 40px;
+      padding: 0 20px 50px;
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 30px;
       flex-wrap: wrap;
     }
     .dish-card {
-      background-color: #fff3e0;
+      background-color: #fff8ef;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(90, 62, 27, 0.25);
       overflow: hidden;
       width: 280px;
       display: none;
       flex-direction: column;
+      transition: transform 0.2s;
+    }
+    .dish-card:hover {
+      transform: translateY(-4px);
     }
     .dish-card.active {
       display: flex;
-    }
-    .dish-card.match {
-      border-color: #ffb74d;
-      box-shadow: 0 0 15px 3px #ffb74d88;
     }
     .dish-image {
       width: 100%;
@@ -109,7 +131,7 @@
     }
     .add-to-cart {
       margin-top: 10px;
-      background-color: #ffcc80;
+      background-color: #fbd8aa;
       border: none;
       padding: 10px;
       border-radius: 6px;
@@ -117,14 +139,14 @@
       font-weight: bold;
     }
     .add-to-cart:hover {
-      background-color: #ffb74d;
+      background-color: #f4a942;
     }
     .navigation-buttons {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
     .navigation-buttons button {
-      background-color: #ffcc80;
+      background-color: #fbd8aa;
       border: none;
       padding: 12px 24px;
       margin: 0 12px;
@@ -135,17 +157,43 @@
     .navigation-buttons button:disabled {
       opacity: 0.5;
     }
-    .back-home {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .back-home a {
-      background-color: #ffcc80;
-      padding: 12px 26px;
+    .cart-float-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #f4a942;
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: 50px;
+      font-weight: bold;
       text-decoration: none;
-      color: #5a3e1b;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: background-color 0.3s;
+    }
+    .cart-float-btn:hover {
+      background-color: #e6922e;
+    }
+    #toast {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #4a2e13;
+      color: #fff3e6;
+      text-align: center;
       border-radius: 8px;
-      font-weight: 700;
+      padding: 16px;
+      position: fixed;
+      z-index: 100;
+      left: 50%;
+      bottom: 30px;
+      font-size: 1rem;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out, bottom 0.5s;
+    }
+    #toast.show {
+      visibility: visible;
+      opacity: 1;
+      bottom: 50px;
     }
     @media (max-width: 768px) {
       .menu-section {
@@ -155,28 +203,34 @@
       .dish-card {
         min-width: 280px;
       }
+      .cart-float-btn {
+        padding: 12px 18px;
+        font-size: 0.95em;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Sarap ng Lutong Bahay</h1>
-    <p>Gulay</p>
   </header>
 
   <nav>
-    <a href="rice-meals.html">Rice Meals</a>
-    <a href="gulay.html">Gulay</a>
-    <a href="pansit.html">Pansit</a>
-    <a href="desserts.html">Desserts</a>
-    <a href="drinks.html">Drinks</a>
+    <div class="nav-left">
+      <a href="index.html">Back to Homepage</a>
+    </div>
+    <div class="nav-center">
+      <a href="rice-meals.html" title="Previous"><i class="fas fa-chevron-left"></i></a>
+      <span>Gulay</span>
+      <a href="pansit.html" title="Next"><i class="fas fa-chevron-right"></i></a>
+    </div>
   </nav>
 
   <div class="search-container">
     <input id="search" type="text" placeholder="Search dishes..." />
   </div>
 
-  <section class="menu-section">
+ <section class="menu-section">
     <!-- Sample dish cards (repeatable structure) -->
     <article class="dish-card">
      <img src="https://www.foodandwine.com/thmb/h0H-PEqHPCiTakKxDPQzPoWuy7Q=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Ginataang-Gulay-Filipino-Vegetable-Stew-FT-RECIPE1023-4e7dd044042f49549a2c3421a03faf60.jpg" alt="Ginataang Gulay" class="dish-image" />
@@ -245,99 +299,101 @@
     <button id="nextBtn">Next →</button>
   </div>
 
- <div class="back-home" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;">
-  <a href="index.html">← Back to Homepage</a>
-  <a href="cart.html">🛒 Check Your Cart</a>
-</div>
+  <a href="cart.html" class="cart-float-btn">🛒 View Cart</a>
 
+  <div id="toast">Item added to cart!</div>
 
-<script>
-  const dishes = Array.from(document.querySelectorAll('.dish-card'));
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const searchInput = document.getElementById('search');
+  <script>
+    const dishes = Array.from(document.querySelectorAll('.dish-card'));
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const searchInput = document.getElementById('search');
+    const toast = document.getElementById('toast');
 
-  const itemsPerPage = 3;
-  let currentPage = 0;
-  let filteredDishes = dishes.slice(); // Start with all dishes shown
+    const itemsPerPage = 3;
+    let currentPage = 0;
+    let filteredDishes = dishes.slice();
 
-  function updateDisplay() {
-    dishes.forEach(dish => {
-      dish.classList.remove('active');
-      dish.style.display = 'none'; // hide all initially
-    });
+    function updateDisplay() {
+      dishes.forEach(dish => {
+        dish.classList.remove('active');
+        dish.style.display = 'none';
+      });
 
-    const start = currentPage * itemsPerPage;
-    const end = start + itemsPerPage;
+      const start = currentPage * itemsPerPage;
+      const end = start + itemsPerPage;
 
-    filteredDishes.forEach((dish, index) => {
-      if (index >= start && index < end) {
-        dish.classList.add('active');
-        dish.style.display = 'flex'; // show only filtered & paginated dishes
+      filteredDishes.forEach((dish, index) => {
+        if (index >= start && index < end) {
+          dish.classList.add('active');
+          dish.style.display = 'flex';
+        }
+      });
+
+      prevBtn.disabled = currentPage === 0;
+      nextBtn.disabled = end >= filteredDishes.length;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        updateDisplay();
       }
     });
 
-    prevBtn.disabled = currentPage === 0;
-    nextBtn.disabled = end >= filteredDishes.length;
-  }
+    nextBtn.addEventListener('click', () => {
+      if ((currentPage + 1) * itemsPerPage < filteredDishes.length) {
+        currentPage++;
+        updateDisplay();
+      }
+    });
 
-  prevBtn.addEventListener('click', () => {
-    if (currentPage > 0) {
-      currentPage--;
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase().trim();
+      currentPage = 0;
+      filteredDishes = !query
+        ? dishes.slice()
+        : dishes.filter(dish => {
+            const title = dish.querySelector('h3').textContent.toLowerCase();
+            const desc = dish.querySelector('p').textContent.toLowerCase();
+            return title.includes(query) || desc.includes(query);
+          });
       updateDisplay();
+    });
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.className = "show";
+      setTimeout(() => {
+        toast.className = toast.className.replace("show", "");
+      }, 3000);
     }
-  });
 
-  nextBtn.addEventListener('click', () => {
-    if ((currentPage + 1) * itemsPerPage < filteredDishes.length) {
-      currentPage++;
-      updateDisplay();
-    }
-  });
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const dishCard = e.target.closest('.dish-card');
+        const name = dishCard.querySelector('h3').textContent;
+        const priceText = dishCard.querySelector('strong').textContent;
+        const price = parseFloat(priceText.replace(/[₱,]/g, ''));
+        const img = dishCard.querySelector('img').src;
 
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase().trim();
-    currentPage = 0; // reset page on new search
+        const item = { name, price, img, quantity: 1 };
 
-    if (!query) {
-      filteredDishes = dishes.slice();
-    } else {
-      filteredDishes = dishes.filter(dish => {
-        const title = dish.querySelector('h3').textContent.toLowerCase();
-        const desc = dish.querySelector('p').textContent.toLowerCase();
-        return title.includes(query) || desc.includes(query);
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        const existing = cart.find(i => i.name === item.name);
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          cart.push(item);
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        showToast(`${name} added to cart!`);
       });
-    }
+    });
 
     updateDisplay();
-  });
-
-  document.querySelectorAll('.add-to-cart').forEach(button => {
-    button.addEventListener('click', (e) => {
-      const dishCard = e.target.closest('.dish-card');
-      const name = dishCard.querySelector('h3').textContent;
-      const priceText = dishCard.querySelector('strong').textContent;
-      const price = parseFloat(priceText.replace(/[₱,]/g, ''));
-      const img = dishCard.querySelector('img').src;
-
-      const item = { name, price, img, quantity: 1 };
-
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-      const existing = cart.find(i => i.name === item.name);
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        cart.push(item);
-      }
-
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`${name} added to cart!`);
-    });
-  });
-
-  // Initial display
-  updateDisplay();
-</script>
+  </script>
 </body>
 </html>
