@@ -96,37 +96,6 @@
       background-color: #a0522d;
     }
 
-    .search-container {
-      display: flex;
-      align-items: center;
-      background-color: #ffebaf;
-      padding: 5px 10px;
-      border-radius: 5px;
-      margin-left: auto;
-      margin-right: 10px;
-    }
-
-    .search-container input {
-      border: none;
-      padding: 8px;
-      width: 200px;
-      margin-right: 10px;
-      border-radius: 5px;
-    }
-
-    .search-container button {
-      background-color: #ff6600;
-      color: white;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .search-container button:hover {
-      background-color: #cc5200;
-    }
-
     main {
       padding: 40px;
       text-align: center;
@@ -267,14 +236,6 @@
         display: block;
       }
 
-      .search-container input {
-        width: 150px;
-      }
-
-      .search-container {
-        margin: 10px auto;
-      }
-
       .tip-frame {
         width: 90%;
         height: auto;
@@ -305,15 +266,10 @@
           <li><a href="drinks.html">Drinks</a></li>
         </ul>
       </li>
-      <li><a href="cart.html">Your Orders</a>
-      </li>
+      <li><a href="cart.html">Your Orders</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="aboutus.html">About Us</a></li>
     </ul>
-    <div class="search-container">
-      <input type="text" id="search-input" placeholder="Search...">
-      <button onclick="search()">Search</button>
-    </div>
   </nav>
 
   <!-- Main Content -->
@@ -351,16 +307,38 @@
       </div>
     </div>
 
+    <!-- New Button Below Recipes -->
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="rice-meals.html" style="
+        display: inline-block;
+        font-family: 'Barrio', cursive;
+        font-size: 1.5em;
+        color: #fff;
+        background-color: #d2691e;
+        padding: 10px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        transition: background-color 0.3s ease;
+      " onmouseover="this.style.backgroundColor='#a0522d'" onmouseout="this.style.backgroundColor='#d2691e'">
+        TIGNAN LAHAT
+      </a>
+    </div>
+
     <hr />
+
+    <!-- Tips Section & Below content remain unchanged -->
+    <!-- ... (rest of the code continues unchanged) -->
+
 
     <section class="tips-section">
       <div class="tip-frame">
-        <h4>TIMPLADO TIPS</h4>
-        <ul style="list-style-type: none; padding-left: 0;">
-          <li><a href="#">Adobo Masterclass: 3 Easy Steps to Perfection</a></li>
-          <li><a href="#">Lutong-Bahay Sinigang in 15 Minutes</a></li>
-          <li><a href="#">Crispy Timplado: The Secret to Perfect Lechon Kawali</a></li>
-          <li><a href="#">One-Pot Kare-Kare: No Fuss, All Flavor</a></li>
+        <h4>GENERAL TIPS</h4>
+        <ul style="list-style-type: disc; padding-left: 20px;">
+          <li>Always taste your food as you cook to adjust seasoning.</li>
+          <li>Use fresh ingredients for the best flavor and nutrition.</li>
+          <li>Let meat rest before slicing to keep it juicy and tender.</li>
+          <li>Clean as you go to make cooking more enjoyable.</li>
         </ul>
       </div>
 
@@ -408,30 +386,6 @@
   <script>
     function toggleMenu() {
       document.getElementById("navbar").classList.toggle("active");
-    }
-
-    function search() {
-      const query = document.getElementById("search-input").value.trim().toLowerCase();
-      if (!query) {
-        alert("Please enter a search term.");
-        return;
-      }
-
-      const items = document.querySelectorAll(".image-template p");
-      let found = false;
-
-      items.forEach(item => {
-        if (item.textContent.toLowerCase().includes(query)) {
-          item.parentElement.scrollIntoView({ behavior: "smooth" });
-          item.parentElement.style.border = "3px solid #ff9900";
-          setTimeout(() => item.parentElement.style.border = "none", 3000);
-          found = true;
-        }
-      });
-
-      if (!found) {
-        alert("No matching item found.");
-      }
     }
   </script>
 </body>
