@@ -6,12 +6,6 @@
   <title>Cart</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Barrio&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    (function() {
-      emailjs.init('wdmDXPNCdsEPB8yeO');
-    })();
-  </script>
   <style>
     body {
       background-color: #f5f5dc;
@@ -317,38 +311,34 @@
       document.getElementById('order-modal').style.display = 'none';
     }
 
-    function generateOrderSummary() {
-      let summary = '';
-      let total = 0;
-      cart.forEach(item => {
-        summary += `${item.name} - ₱${item.price.toFixed(2)} x ${item.quantity}\n`;
-        total += item.price * item.quantity;
-      });
-      summary += `\nTotal: ₱${total.toFixed(2)}`;
-      return summary;
-    }
+    document.getElementById('order-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('user-name').value.trim();
+      const phone = document.getElementById('user-phone').value.trim();
+      const email = document.getElementById('user-email').value.trim();
+      const address = document.getElementById('user-address').value.trim();
 
-    function sendEmail(name, email, phone, address, summary) {
-      const templateParams = {
-        user_name: name,
-        user_email: email,
-        user_phone: phone,
-        user_address: address,
-        order_summary: summary
-      };
+      if (!name || !phone || !email || !address) {
+        alert('Please fill out all fields.');
+        return;
+      }
 
-      emailjs.send('service_zo7kegq', 'template_6tyzjgu', templateParams)
-        .then(function(response) {
-          console.log('Email sent successfully!', response.status, response.text);
-        }, function(error) {
-          console.error('Email failed to send:', error);
-        });
-    }
+      const orderSummary = cart.map(item => 
+        `${item.name} (₱${item.price.toFixed(2)}) x${item.quantity}`
+      ).join('\n');
 
-    // NEW function to send order data to your Node.js backend
+      sendOrderToServer(name, email, phone, address, orderSummary);
+      closeModal();
+      alert('Thank you for your order!');
+
+      cart = [];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    });
+
     async function sendOrderToServer(name, email, phone, address, summary) {
       try {
-        const response = await fetch('http://localhost:3000/send-order', {
+        const response = await fetch('https://order-email-server.onrender.com/send-order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, phone, address, summary })
@@ -365,32 +355,13 @@
       }
     }
 
-    document.getElementById('order-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById('user-name').value.trim();
-      const phone = document.getElementById('user-phone').value.trim();
-      const email = document.getElementById('user-email').value.trim();
-      const address = document.getElementById('user-address').value.trim();
-
-      if (!name || !phone || !email || !address) {
-        alert("Please fill out all fields.");
-        return;
+    // Close modal when clicking outside of modal content
+    window.onclick = function(event) {
+      const modal = document.getElementById('order-modal');
+      if (event.target === modal) {
+        closeModal();
       }
-
-      const summary = generateOrderSummary();
-
-      sendEmail(name, email, phone, address, summary);
-      sendOrderToServer(name, email, phone, address, summary);  // <-- New call here
-
-      alert(`Order submitted!\nThank you, ${name}.\nA confirmation will be sent to ${email}.`);
-
-      cart = [];
-      localStorage.removeItem('cart');
-      renderCart();
-      closeModal();
-      document.getElementById('order-form').reset();
-    });
+    };
 
     renderCart();
   </script>
